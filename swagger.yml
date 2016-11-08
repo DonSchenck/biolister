@@ -1,0 +1,110 @@
+# speakez biolister API
+swagger: '2.0'
+info:
+  title: biolister
+  description: Get a list of bios
+  version: "1.0.0"
+# the domain of the service
+host: localhost
+# array of all schemes that your API supports
+schemes:
+  - http
+# will be prefixed to all paths
+basePath: /v1
+produces:
+  - application/json
+paths:
+  /bios/userid:
+    get:
+      summary: Speaker Bios
+      description: |
+        The Bios endpoint returns a list of speaker bios.
+      parameters:
+        - name: userid
+          in: query
+          description: user id (email address).
+          required: true
+          type: string
+      tags:
+        - Bios
+      responses:
+        200:
+          description: An array of bios
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Bio'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /bios/id:
+    get:
+      summary: Get one bio
+      description: |
+        Retrieves a single speaker bio.
+      parameters:
+        - name: id
+          in: query
+          description: ID of the bio.
+          required: true
+          type: number
+          format: integer
+      tags:
+        - Bio
+      responses:
+        200:
+          description: A single speaker Bio
+          schema:
+              $ref: '#/definitions/Bio'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+definitions:
+  Bio:
+    type: object
+    properties:
+      UserId:
+        type: string
+        description: email address
+      Id:
+        type: number
+        description: system-assigned key
+      Description:
+        type: string
+        description: The text of the bio
+      Employer:
+        type: string
+        description: Employer
+      EmailAddress:
+        type: string
+        description: email address
+      TwitterHandle:
+        type: string
+        description: Twitter handle
+      BlogUrl:
+        type: string
+        description: Blog Url
+      FirstName:
+        type: string
+        description: First name
+      LastName:
+        type: string
+        description: Surname of speaker
+      FullName:
+        type: string
+        description: Full name of speaker
+      Nickname:
+        type: string
+        description: Speaker's chosen nickname (e.g. Bob)
+  Error:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      fields:
+        type: string
